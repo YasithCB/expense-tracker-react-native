@@ -35,6 +35,9 @@ function expenseReducer(state, action) {
       const id = new Date().toString() + Math.random().toString();
       return [{ ...action.payload, id: id }, ...state];
 
+    case "SET":
+      return action.payload;
+
     case "DELETE":
       return state.filter((expense) => expense.id !== action.payload.id);
 
@@ -54,16 +57,13 @@ function expenseReducer(state, action) {
 }
 
 function ExpensesContextProvider({ children }) {
-  const [expensesState, dispatch] = useReducer(
-    expenseReducer,
-    DUMMY_EXPENSES_LIST
-  );
+  const [expensesState, dispatch] = useReducer(expenseReducer, []);
 
   function addExpense(expenseData) {
     dispatch({ type: "ADD", payload: expenseData });
   }
 
-  function setExpense(expenses) {
+  function setExpenses(expenses) {
     dispatch({ type: "SET", payload: expenses });
   }
 
@@ -77,6 +77,7 @@ function ExpensesContextProvider({ children }) {
 
   const value = {
     expenses: expensesState,
+    setExpenses: setExpenses,
     addExpense: addExpense,
     deleteExpense: deleteExpense,
     editExpense: editExpense,

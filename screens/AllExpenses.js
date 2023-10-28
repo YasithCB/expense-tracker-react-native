@@ -5,13 +5,14 @@ import { ExpensesContext } from "../store/expenses-context";
 import { fetchExpenses } from "../util/http";
 
 export default function AllExpenses() {
-  // const expensesCtx = useContext(ExpensesContext);
-  const [fetchedExpenses, setFetchedExpenses] = useState([]);
+  const expensesCtx = useContext(ExpensesContext);
+  // const [fetchedExpenses, setFetchedExpenses] = useState([]);
 
   useEffect(() => {
     async function getExpenses() {
       const expensesList = await fetchExpenses();
-      setFetchedExpenses(expensesList);
+      // setFetchedExpenses(expensesList);
+      expensesCtx.setExpenses(expensesList);
     }
     getExpenses();
   }, []);
@@ -20,7 +21,7 @@ export default function AllExpenses() {
     <View>
       <Text>AllExpenses</Text>
       <ExpensesOutput
-        expenses={fetchedExpenses}
+        expenses={expensesCtx.expenses}
         timePeriod="Last 7 Days"
       />
     </View>

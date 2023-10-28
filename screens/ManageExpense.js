@@ -26,15 +26,15 @@ export default function ManageExpense({ route, navigation }) {
     navigation.goBack();
   }
 
-  function onConfirm(newExpense) {
+  async function onConfirm(newExpense) {
     if (isEditing) {
     } else {
-      expensesCtx.addExpense(newExpense);
-      storeExpense(newExpense);
+      const id = await storeExpense(newExpense);
+      expensesCtx.addExpense({ ...newExpense, id: id });
     }
     navigation.goBack();
   }
-
+  
   return (
     <View>
       <ExpenseForm

@@ -5,13 +5,14 @@ import { ExpensesContext } from "../store/expenses-context";
 import { fetchExpenses } from "../util/http";
 
 export default function RecentExpenses() {
-  // const expensesCtx = useContext(ExpensesContext);
-  const [fetchedExpenses, setFetchedExpenses] = useState([]);
+  const expensesCtx = useContext(ExpensesContext);
+  // const [fetchedExpenses, setFetchedExpenses] = useState([]);
 
   useEffect(() => {
     async function getExpenses() {
       const expensesList = await fetchExpenses();
-      setFetchedExpenses(expensesList);
+      // setFetchedExpenses(expensesList);
+      expensesCtx.setExpenses(expensesList);
     }
     getExpenses();
   }, []);
@@ -19,7 +20,10 @@ export default function RecentExpenses() {
   return (
     <View>
       <Text>RecentExpenses</Text>
-      <ExpensesOutput expenses={fetchedExpenses} timePeriod="Last 7 Days" />
+      <ExpensesOutput
+        expenses={expensesCtx.expenses}
+        timePeriod="Last 7 Days"
+      />
     </View>
   );
 }

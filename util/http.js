@@ -2,8 +2,9 @@ import axios from "axios";
 
 const baseUrl = "https://react-native-begin-default-rtdb.firebaseio.com/";
 
-export function storeExpense(expense) {
-  axios.post(baseUrl + "expenses.json", expense);
+export async function storeExpense(expense) {
+  const resp = await axios.post(baseUrl + "expenses.json", expense);
+  return resp.data.name;
 }
 
 export async function fetchExpenses() {
