@@ -1,12 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import ExpensesOutput from "../components/ExpensesOutput";
+import { ExpensesContext } from "../store/expenses-context";
+import { fetchExpenses } from "../util/http";
 
 export default function RecentExpenses() {
+  // const expensesCtx = useContext(ExpensesContext);
+  const [fetchedExpenses, setFetchedExpenses] = useState([]);
+
+  useEffect(() => {
+    async function getExpenses() {
+      const expensesList = await fetchExpenses();
+      setFetchedExpenses(expensesList);
+    }
+    getExpenses();
+  }, []);
+
   return (
     <View>
       <Text>RecentExpenses</Text>
+      <ExpensesOutput expenses={fetchedExpenses} timePeriod="Last 7 Days" />
     </View>
-  )
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
